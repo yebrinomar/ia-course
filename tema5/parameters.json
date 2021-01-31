@@ -5,7 +5,7 @@
         "summary_filename_prefix": "logs/A2C_",
         "use_cuda": true,
         "learning_rate": 5e-3,
-        "max_num_episodes": 25,
+        "max_num_episodes": 50000,
         "gamma": 0.99,
         "model_dir": "trained_models/",
         "load_trained_model": true,

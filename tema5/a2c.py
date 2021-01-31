@@ -123,7 +123,7 @@ class DeepActorCriticAgent(mp.Process):
         mu, sigma = self.actor(obs)
         value = self.critic(obs)
         #Clamp de cada dimensión de mu basándonos en cada uno de los límites de los espacios vectoriales de acciones (low, high)
-        #x.Clamp(a,b) manitiene a x entre los valores a y b
+        #x.Clamp(a,b) mantiene a x entre los valores a y b
         [mu[:,i].clamp_(float(self.env.action_space.low[i]), float(self.env.action_space.high[i])) for i in range(self.action_shape)]
         #Suavizar el valor de sigma
         sigma = torch.nn.Softplus()(sigma).squeeze() + 1e-7 
@@ -133,7 +133,7 @@ class DeepActorCriticAgent(mp.Process):
         self.value = value.to(torch.device("cpu"))
         
         if len(self.mu.shape) == 0: #mu es un escalar
-            self.mu.unsqueeze_(0) #evitará que la multivariante noral de un error
+            self.mu.unsqueeze_(0) #evitará que la multivariante normal de un error
             
         self.action_distribution = MultivariateNormal(self.mu, torch.eye(self.action_shape) * self.sigma, validate_args = True)
         return self.action_distribution
@@ -396,8 +396,7 @@ class DeepActorCriticAgent(mp.Process):
                 writer.add_scalar(self.actor_name + "/ep_reward", ep_reward, self.global_step_num)
                 writer.add_scalar(self.actor_name + "/mean_ep_reward", np.mean(episode_rewards), self.global_step_num)
                 writer.add_scalar(self.actor_name + "/max_ep_reward", self.best_reward, self.global_step_num)                 
-
-        
+                writer.close()
             
     
 if __name__ == "__main__":
@@ -409,7 +408,7 @@ if __name__ == "__main__":
     env_params = manager.get_environment_params()
     env_params["env_name"] = args.env
     
-    mp.set_start_method("spawn")
+    mp.set_start_method("spawn", force=True)
 
     agent_procs = [DeepActorCriticAgent(id, args.env, agent_params, env_params) for id in range(agent_params["num_agents"])]    
     

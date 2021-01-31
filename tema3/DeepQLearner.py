@@ -153,7 +153,7 @@ class DeepQLearner(object):
         """
         batch_xp = Experience(*zip(*experiences))
         obs_batch = np.array(batch_xp.obs)/255.0
-        action_batch = np.array(batch_xp.action)
+        action_batch = np.array(batch_xp.action).astype('int64')
         reward_batch = np.array(batch_xp.reward)
         
         if self.params["clip_reward"]:

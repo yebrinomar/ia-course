@@ -4,7 +4,7 @@
     "learning_rate":0.005,
     "learning_step_thresh":10,
     "load_trained_model":true,
-    "max_num_episodes":50000,
+    "max_num_episodes":25,
     "model_dir":"trained_models/",
     "num_agents":1,
     "save_freq":20,
